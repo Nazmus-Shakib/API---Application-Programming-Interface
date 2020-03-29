@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON - Javascript Object Notation</title>
+  </head>
+  <body>
+    <h1>JSON</h1>
+    <h2>Javascript Object Notation</h2>
+    <ul id="user-container">
+      <input id="title" type="text" placeholder="title" />
+      <br />
+      <input id="bodyContent" type="text" placeholder="post er main jinish" />
+      <br />
+      <button id="submit">Submit</button>
+    </ul>
+    <script>
+      // const user = {
+      //   id: 2024,
+      //   name: "Shakib",
+      //   friendsAge: [14, 16, 20],
+      //   friendName: ["Shakib", "Nazmus", "Sourav"]
+      // };
+      // //           {"id":2024,"name":"Shakib"}
+      // const userJSON = JSON.stringify(user); // when we will send data to server in string form
+      // console.log(userJSON);
+
+      // const userFromJSON = JSON.parse(userJSON); // when we will receive data from server & convert it into Javascript form
+      // console.log(userFromJSON);
+
+      // fetch("https://jsonplaceholder.typicode.com/users") // server address to load all data.
+      //   .then(response => response.json())
+      //   .then(json => displayUser(json))
+      //   .catch(error => console.log(error));
+
+      function displayUser(users) {
+        const userNames = users.map(user => user.username); // read all the userNames from the server data.
+        const ul = document.getElementById("user-container"); // read the website ul values.
+        // function for load all the values and show it to the website.
+        for (let i = 0; i < userNames.length; i++) {
+          const userName = userNames[i];
+          const li = document.createElement("li");
+          li.innerText = userName;
+          ul.appendChild(li);
+        }
+      }
+
+      // website input & button working function:
+      document.getElementById("submit").addEventListener("click", function() {
+        const title = document.getElementById("title").value;
+        const bodyContent = document.getElementById("bodyContent").value;
+        const post = { title: title, body: bodyContent };
+        nowPostToServer(post);
+      });
+
+      // to send/post data to server:
+      function nowPostToServer(postInfo) {
+        fetch("https://jsonplaceholder.typicode.com/posts", {
+          method: "POST", // when we will send data to server (Post request)
+          body: JSON.stringify(postInfo),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => alert("Please try again later."));
+      }
+    </script>
+  </body>
+</html>
